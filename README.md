@@ -1,4 +1,4 @@
-# Smoothed-ModernBERT
+# Smoothed-ModernBERT (ANONYMOUS PyTorch implementation)
 This is an ANONYMOUS PyTorch implementation of Smoothed-ModernBERT: Co-Attentional Synergy of Probabilistic Topic Models and ModernBERT through Dynamic Fusion
 
 ## PLEASE NOTE THAT THIS REPO WILL BE MOVED TO OUR OFFICIAL GitHub after the paper acceptance (paper is currently under review)
