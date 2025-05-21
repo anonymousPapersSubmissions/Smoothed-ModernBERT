@@ -6,13 +6,14 @@ PyTorch implementation of Smoothed-ModernBERT: Co-Attentional Synergy of Probabi
 
 ### Getting Started:
 
-Install [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html) if you have not already done so. Then run
+To install conda packge: [conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html)
 
+Then install the requirements by running:
 ```
 conda env create -f environment.yml
 ```
 
-This will create a Python environment that strictly adheres to the versioning indicated in the [project proposal](https://drive.google.com/file/d/1oEE8oxiM95Tf99SxUhPXgZj3GkotFtlM/view). It is intended to closely mirror Google Colab.
+This will create a Python environment and install all the necessary packages required to run the scripts without distrupting your machine packages.
 
 To train and test the model, run `python main.py` 
 
@@ -51,49 +52,7 @@ Sample `config.json`:
 ```
 
 
-## Roadmap (DONE)
+## Data sets
+We use five data sets and we have set Reuter r8 as a defaul. To use other data sets, please download it in the same directory named 'raw_data' 
 
-- [X] Have working BERT on some dataset (SST-2)
-    - Completed on 4/8/21, Liam
-- [X] Reuters8 Dataset & DataLoader set up
-    - Dataset & DataLoader done on 4/9/21, Liam
-- [X] BERT doing standalone prediction on Reuters8
-    - Done — achieves 99.5% train, 98.0% val accuracy run on Google Colab, 4/10/21, Liam 
-- [X] Set up NVDM topic model on some dataset
-- [X] NVDM working on Reuters8
-    - Done — error behaves as expected when training, needs further analysis, 4/18/21, Liam
-- [X] Create joint model (TopicBERT)
-    - Coding complete, 4/19/21, Liam
-- [X] Achieve near baselines with TopicBERT
-    - We achieve 0.96 F1 score on Reuters8 with TopicBERT-512, outperforming the original paper marginally. See differences section for potental factors.
-    - Done, 4/19/21, Liam
-- [X] Move from Jupyter to Python modules
-    - All "modules" converted, 4/25/21, Liam. 
-    - `training` package and `main.py` complete, 4/26/21, Liam.
-- [X] Measure performance baselines
-    - All baselines finalized, 5/3/21, Liam.
-
-Happy to report that the model has performance (runtime & accuracy) characteristics as expected! 
-
-Non-modification Extensions Pursued:
-- Pre-train VAE.
-    - Implemented [HR-VAE](https://arxiv.org/pdf/1911.05343.pdf) as comptatible model with TopicBERT. Currently have ability for the TopicBERT main script to pre-train an HR-VAE model on a dataset. 5/8/21, Liam.
-
-More Extension Ideas:
-- Test new datasets in topic classification
-- Test datasets in a different domain (e.g. NLI, GLUE)
-
------
-
-## Differences
-
-This section maintains a (non-definitive) list of differences between the original implementation and this repository's code.
-
-- `F_MIN` set to `10` on Reuters8 dataset yields a vocab size of `K = 4832` rather than `K = 4813` reported in the original paper, despite following the same text-cleaning guidelines. We assume this will not significantly affect results.
-- `F_MIN` set  to `100` on the IMDB dataset yields a vocab size of `K = 7358` rather than `K = 6823` reported in the original paper, despite following the same text-cleaning guidelines. We assume this will not significantly affect results.
-- We use a size 1k validation set for IMDB (24k train), whereas the originaal authors used a 5k validation set.
-- The original authors use `bert-base-cased`. As all data is lowercased across datasets in the original experiments, we change this to `bert-base-uncased`.
-- Labels are encoded one-hot. We use `torch.max(...)[1]` to extract prediction & label indices. These indices can be converted back and forth with label strings via `dataset.label_mapping[index]` and `dataset.label_mapping[label_str]`.
-- NVDM in the original paper uses `tanh` activation for multiliayer perceptron in NVDM. However, the author's TensorFlow implementation uses `sigmoid`. We use `GELU`, as the NVDM paper ([Miao et al. 2016](https://arxiv.org/pdf/1511.06038.pdf)) uses this as well.
-- TopicBERT as described in the paper has a projection layer consisting of a single matrix $\mathbf{P} \in \mathbf{R}^{\hat{H} \times H_B}$. We add `GELU` activation after $\mathbf{P}$. The original author's TensorFlow implementation utilizes a `tf.keras.layers.Dense` layer, which adds a bias vector and `GELU` activation after $\mathbf{P}$.
 
