@@ -53,6 +53,6 @@ Sample `config.json`:
 
 
 ## Data sets
-We use five data sets and we have set Reuter r8 as a defaul. To use other data sets, please download it in the same directory named 'raw_data' 
+We use five data sets and we have set Reuter r8 as a defaul. To use other data sets, please download it [DATA SETs](https://disi.unitn.it/moschitti/corpora.htm) in the same directory named 'raw_data'  
 
 
